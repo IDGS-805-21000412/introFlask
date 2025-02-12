@@ -75,37 +75,39 @@ def operas():
     return render_template("OperasBas.html", resultado=resultado)
 
 
+
 class Cine:
     maximo_boletos = 7
     precio_boletos = 12
 
     def __init__(self):
-        self.compradores = []
+        pass 
 
-    def boletos_compradores(self, nombre, cantidad_boletos):
-        if cantidad_boletos > Cine.maximo_boletos:
-            return False, "No puedes comprar más de 7 boletos por persona."
+    def boletos_compradores(self, nombre, cantidad_boletos, cantidad_compradores):
+        max_boletos_total = Cine.maximo_boletos * cantidad_compradores
 
-        self.compradores.append((nombre, cantidad_boletos))
-        return True, "Compra registrada."
+        if cantidad_boletos > max_boletos_total:
+            return False, f"No puedes comprar mas de 7 boletos por persona"
 
-    def total(self, cineco):
+        return True, "Compra registrada"
+
+    def total(self, cantidad_boletos, cineco):
         total_precio = 0
 
-        for _, cantidad_boletos in self.compradores:
-            if cantidad_boletos > 5:
-                total = (cantidad_boletos * Cine.precio_boletos) * 0.85
-            elif cantidad_boletos >= 3:
-                total = (cantidad_boletos * Cine.precio_boletos) * 0.90
-            else:
-                total = (cantidad_boletos * Cine.precio_boletos)
+        if cantidad_boletos > 5:
+            total = (cantidad_boletos * Cine.precio_boletos) * 0.85
+        elif cantidad_boletos >= 3:
+            total = (cantidad_boletos * Cine.precio_boletos) * 0.90
+        else:
+            total = cantidad_boletos * Cine.precio_boletos
 
-            total_precio += total
+        total_precio += total
 
         if cineco == "si":
-            total_precio *= 0.90 
+            total_precio *= 0.90  
 
         return round(total_precio, 2)
+
 
 cine = Cine()
 
@@ -117,13 +119,15 @@ def index():
 def procesar_entrada():
     nombre = request.form['nombre']
     cantidad_boletos = int(request.form['cantidad_boletos'])
+    cantidad_compradores = int(request.form['cantidad_compradores'])  
     cineco = request.form['cineco']
     
-    exito, mensaje = cine.boletos_compradores(nombre, cantidad_boletos)
+    exito, mensaje = cine.boletos_compradores(nombre, cantidad_boletos, cantidad_compradores)
+    
     if not exito:
         return render_template('index.html', total=mensaje)
 
-    total_a_pagar = cine.total(cineco)
+    total_a_pagar = cine.total(cantidad_boletos, cineco)
     return render_template('index.html', total=total_a_pagar)
 
 if __name__ == "__main__":

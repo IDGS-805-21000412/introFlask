@@ -23,28 +23,26 @@
         <div class="row">
             <div class="col-md-6 div-border">
                 <h3>Entradas</h3>
-                <form action="/cineEntradas" method="post">
+                <form id="cineForm" action="/cineEntradas" method="post">
                     <label>Nombre: </label>
                     <input type="text" name="nombre" class="form-control" required><br>
 
                     <label>Cantidad de compradores: </label>
-                    <input type="text" name="cantidad_compradores" class="form-control" required><br>
-                    
+                    <input type="number" name="cantidad_compradores" class="form-control" min="1" required><br>
+
                     <label>Cantidad de boletos: </label>
                     <input type="text" name="cantidad_boletos" class="form-control" required><br>
                     
                     <label>Tarjeta de cineco:</label><br>
                     <input type="radio" name="cineco" value="si"> Si
                     <input type="radio" name="cineco" value="no" checked> No <br><br>
-
-                    <button type="submit" class="btn btn-primary">Procesar</button>
                 </form>
             </div>
 
             <div class="col-md-6 div-border">
                 <h3>Salidas</h3>
                 <form action="#">
-                    <label>Valor a pagar: </label>
+                    <label>Total a pagar: </label>
                     <input type="text" class="form-control" value="{{ total }}" readonly><br>
                 </form>
             </div>
@@ -53,9 +51,11 @@
         <div class="row justify-content-center mt-3">
             <div class="col-md-4 text-center div-border">
                 <h3>Acciones</h3>
-                <form action="/">
+                <form action="/" method="get">
+                    <button type="submit" form="cineForm" class="btn btn-primary">Procesar</button>
                     <button class="btn btn-secondary">Salir</button>
                 </form>
+                
             </div>
         </div>
     </div>
