@@ -75,10 +75,6 @@ def operas():
     return render_template("OperasBas.html", resultado=resultado)
 
 
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
-
 class Cine:
     maximo_boletos = 7
     precio_boletos = 12
