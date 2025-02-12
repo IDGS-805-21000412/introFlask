@@ -1,12 +1,67 @@
-{%extends "layout.html"%}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/estilos.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Cinepolis</title>
+    <style>
+        body { background-color: rgb(68, 65, 255); }
+        h1 { text-align: center; }
+        h3 { color: white; }
+        input { border-color: black; }
+        label { color: white; }
+        .container-custom { margin-top: 20px; }
+        .div-border { border: 2px solid white; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Cinepolis</h1>
 
-{%block container%}
+    <div class="container container-custom">
+        <div class="row">
+            <div class="col-md-6 div-border">
+                <h3>Entradas</h3>
+                <form action="/cineEntradas" method="post">
+                    <label>Nombre: </label>
+                    <input type="text" name="nombre" class="form-control" required><br>
 
-        <h1>{{titulo}}</h1>
+                    <label>Cantidad de compradores: </label>
+                    <input type="text" name="cantidad_compradores" class="form-control" required><br>
+                    
+                    <label>Cantidad de boletos: </label>
+                    <input type="text" name="cantidad_boletos" class="form-control" required><br>
+                    
+                    <label>Tarjeta de cineco:</label><br>
+                    <input type="radio" name="cineco" value="si"> Si
+                    <input type="radio" name="cineco" value="no" checked> No <br><br>
 
-        {%for value in lista %}
-            <h3>{{value}}</h3>
+                    <button type="submit" class="btn btn-primary">Procesar</button>
+                </form>
+            </div>
 
-        {%endfor%}
+            <div class="col-md-6 div-border">
+                <h3>Salidas</h3>
+                <form action="#">
+                    <label>Valor a pagar: </label>
+                    <input type="text" class="form-control" value="{{ total }}" readonly><br>
+                </form>
+            </div>
+        </div>
 
-{%endblock%}
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-4 text-center div-border">
+                <h3>Acciones</h3>
+                <form action="/">
+                    <button class="btn btn-secondary">Salir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block container %}
+
+<form action="/OperasBas" method="post">
+    <label>N1:</label>
+    <input type="text" name="n1" required><br>
+
+    <label>N2:</label>
+    <input type="text" name="n2" required><br>
+
+    <input type="radio" name="operacion" value="suma" required> Sumar
+    <input type="radio" name="operacion" value="resta"> Restar
+    <input type="radio" name="operacion" value="multiplicar"> Multiplicar
+    <input type="radio" name="operacion" value="dividir"> Dividir<br>
+
+    <input type="submit" value="Calcular"><br>
+
+    <label>Resultado:</label>
+    <input type="text" value="{{ resultado }}" readonly>
+</form>
+
+{% endblock %}
+
+
+
