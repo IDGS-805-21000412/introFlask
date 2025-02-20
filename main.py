@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-
+from datetime import date
 import forms 
 
 
@@ -18,13 +18,44 @@ def alumnos():
     ape=''
     email=''
     alumno_clase=forms.UserForm(request.form)
-    if request.method=="POST":
+    if request.method=="POST" and alumno_clase.validate():
         mat=alumno_clase.matricula.data
         ape=alumno_clase.apellido.data
         nom=alumno_clase.nombre.data
         email=alumno_clase.email.data
         print('Nombre: {}'.format(nom))
-    return render_template("alumnos.html", form=alumno_clase)
+    return render_template("alumnos.html", form=alumno_clase,mat=mat,nom=nom,ape=ape,email=email)
+
+@app.route("/zodiaco", methods=["GET", "POST"])
+def zodiaco():
+    nom, apat, amat, signo, signo_img = '', '', '', '', ''
+    edad = 0
+
+    form = forms.ZodiacoForm(request.form)
+    if request.method == "POST" and form.validate():
+        nom = form.nombre.data
+        apat = form.apaterno.data
+        amat = form.amaterno.data
+        dia = form.dia.data
+        mes = form.mes.data
+        anio = form.anio.data
+
+        hoy = date.today()
+        edad = hoy.year - anio - ((hoy.month, hoy.day) < (mes, dia))
+
+        animales_chinos = [
+            (0, "Rata"), (1, "Buey"), (2, "Tigre"), (3, "Conejo"),
+            (4, "Dragon"), (5, "Serpiente"), (6, "Caballo"), (7, "Cabra"),
+            (8, "Mono"), (9, "Gallo"), (10, "Perro"), (11, "Cerdo")
+        ]
+
+        signo_index = (anio - 4) % 12  
+        signo = animales_chinos[signo_index][1]
+
+        signo_img = f"static/bootstrap/img/{signo.lower()}.jpg"
+
+    return render_template("zodiaco.html", form=form, nom=nom, apat=apat, amat=amat, edad=edad, signo=signo, signo_img=signo_img)
+
 
 @app.route("/ejemplo1")
 def ejemplo1():
@@ -149,3 +180,4 @@ def procesar_entrada():
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000)
+    

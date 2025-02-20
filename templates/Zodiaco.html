@@ -1,0 +1,63 @@
+{% extends "layoutZodiaco.html" %}
+
+{% block container %}
+{% import "_macros.html" as macros %}
+
+<h1>Zodiaco chino</h1>
+<div class="contenedor">
+    <div class="formulario">
+        <h2>Datos personales</h2>
+        <form action="" method="post">
+            <div class="row-control-group">
+                <div class="form-group col-xs-12">
+                    {{macros.campoNuevo(form.nombre, class='form-control')}}
+                </div>
+            </div>
+            <div class="row-control-group">
+                <div class="form-group col-xs-12">
+                    {{macros.campoNuevo(form.apaterno, class='form-control')}}
+                </div>
+            </div>
+            <div class="row-control-group">
+                <div class="form-group col-xs-12">
+                    {{macros.campoNuevo(form.amaterno, class='form-control')}}
+                </div>
+            </div>
+            <div class="fecha-nacimiento">
+                <div class="fecha-campo">
+                    <label for="dia">Dia</label>
+                    {{form.dia(class="form-control input-text")}}
+                </div>
+                <div class="fecha-campo">
+                    <label for="mes">Mes</label>
+                    {{form.mes(class="form-control input-text")}}
+                </div>
+                <div class="fecha-campo">
+                    <label for="anio">Año</label>
+                    {{form.anio(class="form-control input-text")}}
+                </div>
+            </div>
+            <div class="sexo">
+                <label>Sexo:</label>
+                {{form.sexo}}
+            </div>
+            <input type="submit" value="Imprimir" class="btn btn-primary"/>
+        </form>
+    </div>
+
+    <div class="resultado">
+        {% if nom %}
+            <h4>Hola <b><i>{{nom}} {{apat}} {{amat}}</i></b></h4>
+            <h4>Tienes <b>{{ edad }}</b> años</h4>
+    
+            {% if signo %}
+                <h4>Tu signo zodiacal es: {{signo}}</h4>
+                <img src="{{ signo_img }}" alt="{{ signo }}" class="zodiac-img">
+            {% endif %}
+        {% endif %}
+    </div>
+    
+</div>
+
+{% endblock %}
+
