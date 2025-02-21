@@ -1,9 +1,28 @@
 from flask import Flask, render_template, request
 from datetime import date
 import forms 
-
+from flask import g
+from flask import flash
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
+app.secret_key='esta es una clave secreta'
+csrf=CSRFProtect()
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.before_request
+def before_request():
+    g.nombre='Mario'
+    print("before 1")
+    
+@app.after_request
+def after_request(response):
+    print("after 1")
+    return response
+
 
 @app.route("/Inicio")
 def inicio():
@@ -13,6 +32,7 @@ def inicio():
 
 @app.route("/alumnos",  methods=["GET", "POST"])
 def alumnos():
+    print("alumno:{}".format(g.nombre))
     mat=''
     nom=''
     ape=''
@@ -23,8 +43,10 @@ def alumnos():
         ape=alumno_clase.apellido.data
         nom=alumno_clase.nombre.data
         email=alumno_clase.email.data
-        print('Nombre: {}'.format(nom))
+        mensaje='Bienvenido {}'.format(nom)
+        flash(mensaje)
     return render_template("alumnos.html", form=alumno_clase,mat=mat,nom=nom,ape=ape,email=email)
+
 
 @app.route("/zodiaco", methods=["GET", "POST"])
 def zodiaco():
@@ -179,5 +201,6 @@ def procesar_entrada():
     return render_template('index.html', total=total_a_pagar)
 
 if __name__ == "__main__":
+    csrf.init_app(app)
     app.run(debug=True, port=3000)
     
